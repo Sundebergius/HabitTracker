@@ -17,7 +17,7 @@ void CreateDatabase()
             connection.Open();
             //Declaring what is that command (in SQL syntax)
             tableCmd.CommandText = 
-                @"CREATE TABLE IF NOT EXISTS yourHabit (
+                @"CREATE TABLE IF NOT EXISTS Drinking_Water (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     Date TEXT,
                     Quantity INTEGER
@@ -92,7 +92,25 @@ void Delete()
 
 void Insert()
 {
-    throw new NotImplementedException();
+    string date = GetDateInput();
+
+    int quantity = GetNumberInput("\n\nPlease insert number of glasses or other measure of your choice (no decimals allowed)\n\n");
+}
+
+int GetNumberInput(string message)
+{
+    Console.WriteLine(message);
+
+    string numberInput = Console.ReadLine();
+
+    if (numberInput == "0") 
+    {
+        GetUserInput();
+    }
+
+    int finalInput = Convert.ToInt32(numberInput);
+
+    return finalInput; 
 }
 
 void GetAllRecords()
