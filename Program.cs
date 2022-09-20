@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 
-static string connectionString = @"Data Source=habit-Tracker.db";
+string connectionString = @"Data Source=habit-Tracker.db";
 
 CreateDatabase();
 
@@ -34,10 +34,78 @@ void CreateDatabase()
     GetUserInput();
 }
 
-void getUserInput()
+void GetUserInput()
 {
-    switch (switch_on)
+    Console.Clear();
+    bool closeApp = false;
+    while (closeApp == false)
     {
+        Console.WriteLine("\n\nMAIN MENU");
+        Console.WriteLine("\nWhat would youy like to do?");
+        Console.WriteLine("\nType 0 to close the application.");
+        Console.WriteLine("Type 1 to view all records.");
+        Console.WriteLine("Type 2 to insert a record.");
+        Console.WriteLine("Type 3 to delete a record.");
+        Console.WriteLine("Type 4 to update a record.");
+    }
+
+    string command = Console.ReadLine();
+
+    switch (command)
+    {
+        case "0":
+            Console.WriteLine("\nGoodbye, bitch!");
+            closeApp = true;
+            break;
+
+        case "1":
+            GetAllRecords();
+            break;
+
+        case "2":
+            Insert();
+            break;
+
+        case "3":
+            Delete();
+            break;
+
+        case "4":
+            Update();
+            break;
+
         default:
+            Console.WriteLine("\nInvalid Command. Please type a number between 0-4. \n");
+            break;
+    }
+}
+
+void Update()
+{
+    throw new NotImplementedException();
+}
+
+void Delete()
+{
+    throw new NotImplementedException();
+}
+
+void Insert()
+{
+    throw new NotImplementedException();
+}
+
+void GetAllRecords()
+{
+    throw new NotImplementedException();
+}
+
+ string GetDateInput()
+{
+    Console.WriteLine("\n\nPlease insert the date: (Format: dd-mm-yyyy). Type 0 to return to the main menu.\n");
+    string dateInput = Console.ReadLine();
+    if (dateInput == "0") GetUserInput();
+    {
+        return dateInput;
     }
 }
