@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Globalization;
 
 string connectionString = @"Data Source=habit-Tracker.db";
 
@@ -115,7 +116,33 @@ int GetNumberInput(string message)
 
 void GetAllRecords()
 {
-    throw new NotImplementedException();
+    Console.Clear();
+    using (var connection = new SqliteConnection(connectionString))
+    {
+        connection.Open();
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText =
+            $"SELECT * FROM Drinking_Water ";
+
+        List<DrinkingWater> tableData = new();
+
+        SqliteDataReader reader = tableCmd.ExecuteReader();
+
+        if (reader.HasRows)
+        {
+            while (reader.Read())
+            {
+                tableData.Add(
+                    new DrinkingWater
+                    {
+                        Id = reader.GetInt32(0),
+                        Date = DateTime.ParseExact(reader.GetString(1), "dd-mm-yyyy", new CultureInfo("en_US")),
+                        Quantity = reader.GetInt32(2)
+                    }); ;
+            }
+        }
+        connection.Close();
+    }
 }
 
  string GetDateInput()
@@ -126,4 +153,11 @@ void GetAllRecords()
     {
         return dateInput;
     }
+}
+
+public class DrinkingWater
+{
+    public int Id { get; set; }
+    public DateTime Date { get; set; }
+    public int Quantity { get; set; }
 }

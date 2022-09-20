@@ -3,6 +3,10 @@
     "HabitTracker": {
       "commandName": "Project",
       "workingDirectory": "C:\\Users\\mathi\\OneDrive - Professionshøjskolen UCN\\3. Semester\\C # Projekter\\HabitTracker\\HabitTracker.sln"
+    },
+    "Profile 1": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\Mathias Søndberg\\source\\repos\\Sundebergius\\HabitTracker"
     }
   }
 }
