@@ -48,42 +48,61 @@ void GetUserInput()
         Console.WriteLine("Type 2 to insert a record.");
         Console.WriteLine("Type 3 to delete a record.");
         Console.WriteLine("Type 4 to update a record.");
-    }
+        Console.WriteLine("------------------------------------------\n");
 
-    string command = Console.ReadLine();
 
-    switch (command)
-    {
-        case "0":
-            Console.WriteLine("\nGoodbye, bitch!");
-            closeApp = true;
-            break;
+        string command = Console.ReadLine();
 
-        case "1":
-            GetAllRecords();
-            break;
+        switch (command)
+        {
+            case "0":
+                Console.WriteLine("\nGoodbye, bitch!");
+                closeApp = true;
+                break;
 
-        case "2":
-            Insert();
-            break;
+            case "1":
+                GetAllRecords();
+                break;
 
-        case "3":
-            Delete();
-            break;
+            case "2":
+                Insert();
+                break;
 
-        case "4":
-            Update();
-            break;
+            case "3":
+                Delete();
+                break;
 
-        default:
-            Console.WriteLine("\nInvalid Command. Please type a number between 0-4. \n");
-            break;
+            case "4":
+                Update();
+                break;
+
+            default:
+                Console.WriteLine("\nInvalid Command. Please type a number between 0-4. \n");
+                break;
+        }
     }
 }
 
 void Update()
 {
-    throw new NotImplementedException();
+    GetAllRecords();
+
+    var recordId = GetNumberInput("\n\nPlease type Id of the record you would like to update. Type 0 to return to the main menu.\n\n");
+    using (var connection = new SqliteConnection(connectionString))
+    {
+        connection.Open();
+
+        var checkCmd = connection.CreateCommand();
+        checkCmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM Drinking_Water WHERE Id = {recordId})";
+        int checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+        if (checkQuery == 0)
+        {
+            Console.WriteLine($"\n\nRecord with the Id {recordId} doesn't exist.\n\n");
+            connection.Close();
+            Update();
+        }
+    }
 }
 
 void Delete()
@@ -109,6 +128,11 @@ int GetNumberInput(string message)
         GetUserInput();
     }
 
+    while (!Int32.TryParse(numberInput, out _) || Convert.ToInt32(numberInput) < 0)
+    {
+        Console.WriteLine("\n\nInvalid number. Try again.\n\n");
+        numberInput = Console.ReadLine();
+    }
     int finalInput = Convert.ToInt32(numberInput);
 
     return finalInput; 
@@ -151,6 +175,11 @@ void GetAllRecords()
     string dateInput = Console.ReadLine();
     if (dateInput == "0") GetUserInput();
     {
+        while (!DateTime.TryParseExact(dateInput, "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None, out _))
+        {
+            Console.WriteLine("\n\nInvalid date. (Format: dd-mm-yy). Type 0 to return to main manu or try again:\n\n");
+            dateInput = Console.ReadLine();
+        }
         return dateInput;
     }
 }
